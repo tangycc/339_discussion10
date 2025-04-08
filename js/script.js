@@ -23,29 +23,116 @@ collaborate2Name.innerText = "";
 // Question 3
 // Try change event first
 // There is another event which fires for every character. This is what we want to use.
+const firstNameInput = document.getElementById("first_name");
+const lastNameInput = document.getElementById("last_name");
 
+firstNameInput.addEventListener("input", function () {
+    if (firstNameInput.value === "John") {
+        lastNameInput.value = "Doe";
+    }
+});
 
 
 // Question 4
 // Try change event first
 // There is another event which fires for every character. This is what we want to use.
+let usernameInput = document.getElementById("user_name");
+let alertText = document.getElementById("username-alert");
 
+usernameInput.addEventListener("input", function () {
+    let enteredName = usernameInput.value;
+    if (enteredName === "") {
+        alertText.textContent = "";
+        return;
+    }
+
+    let exists = pokemonList.includes(enteredName);
+    if (exists) {
+        alertText.textContent = "Username already exists";
+    }
+});
 
 
 // Question 5
 // Try change event first
 // There is another event which fires for every character. This is what we want to use.
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm_password");
+    const passwordAlert = document.getElementById("password-alert");
+    const hidePasswordButton = document.getElementById("hide-password");
+
+    // 1. Check password match
+    function checkPasswordMatch() {
+        if (passwordInput.value === "" && confirmPasswordInput.value === "") {
+            passwordAlert.textContent = "";
+            return;
+        }
+
+        if (passwordInput.value === confirmPasswordInput.value) {
+            passwordAlert.textContent = "Password Matches";
+        } else {
+            passwordAlert.textContent = "Password does not match";
+        }
+    }
+
+    passwordInput.addEventListener("input", checkPasswordMatch);
+    confirmPasswordInput.addEventListener("input", checkPasswordMatch);
+
+    // 2. Toggle password visibility
+    let isPasswordHidden = true;
+
+    function togglePasswordVisibility() {
+        const type = isPasswordHidden ? "text" : "password";
+        passwordInput.type = type;
+        confirmPasswordInput.type = type;
+        hidePasswordButton.textContent = isPasswordHidden ? "Show Password" : "Hide Password";
+        isPasswordHidden = !isPasswordHidden;
+    }
+
+    hidePasswordButton.addEventListener("click", togglePasswordVisibility);
+
+    // 3. Add keyboard shortcut 'h'
+    document.addEventListener("keydown", function (event) {
+        if (event.key.toLowerCase() === "h") {
+            togglePasswordVisibility();
+        }
+    });
+});
 
 
 
 
 //Question 6
+document.addEventListener("DOMContentLoaded", function () {
+    const radioResetButton = document.getElementById("radio-reset-button");
+    // selectall
+    const radioButtons = document.querySelectorAll("input[name='favorite_day']");
+
+    radioResetButton.addEventListener("click", function () {
+        radioButtons.forEach(radio => {
+            radio.checked = false;
+        });
+    });
+});
 
 
 
 
 
 //Question 7 
+document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("profile_pic");
+
+    fileInput.addEventListener("change", function () {
+        const file = fileInput.files[0];
+
+        if (file && file.size > 102400) { // 100KB in bytes
+            alert("The selected file is too large. Please choose an image smaller than 100KB.");
+            fileInput.value = ""; // This clears the file input
+        }
+    });
+});
 
 
 
@@ -64,4 +151,27 @@ function changeBackgroundColor() {
 
 
 //Question 9 
+document.addEventListener("DOMContentLoaded", function () {
+    const resetFormButton = document.querySelector(".reset-form-button");
+    const form = document.querySelector("form");
+
+    function resetForm() {
+        form.reset();
+
+        // Optional: clear custom alert messages or values not reset by .reset()
+        document.getElementById("username-alert").textContent = "";
+        document.getElementById("password-alert").textContent = "";
+        document.getElementById("last_name").value = "";
+    }
+
+    // Click on button resets the form
+    resetFormButton.addEventListener("click", resetForm);
+
+    // Pressing 'r' key also resets the form
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "r") {
+            resetForm();
+        }
+    });
+});
 
